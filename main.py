@@ -12,7 +12,7 @@ async def websocket_endpoint(ws: WebSocket):
     print("WebSocket connected")
     while True:
         data = await ws.receive_json()
-        # print(f"Received message: {data}")
+        print(f"Received message: {data}")
         message_type = data.get("type")
         if message_type == "ping":
             await ws.send_json({"type": "pong"})
@@ -20,3 +20,5 @@ async def websocket_endpoint(ws: WebSocket):
             await initiate(ws, data)
         elif message_type == "edit":
             await edit(ws, data)
+        else:
+            print(f"Unknown message type: {message_type}")

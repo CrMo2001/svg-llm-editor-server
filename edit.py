@@ -13,7 +13,9 @@ async def edit(ws: WebSocket, data: dict):
     dependecies = data.get("dependences")
 
     await ws.send_json({"type": "status", "message": "Editing..."})
+    print("calling model")
     result = call_model(scene_graph, dependecies, instruction, svg)
+    print("send response")
     await ws.send_json({"type": "result", "svg": result})
 
 
@@ -28,7 +30,7 @@ def call_model(scene_graph: str, dependencies: str, instruction: str, svg: str):
         "1. A scene graph representing the structure of the SVG chart\n"
         "2. The dependency schema representing the relationships between elements\n"
         "3. An editing instruction\n\n"
-        "4. The original SVG code\n\n"
+        "4. The original SVG code. Note that user may have selected some elements, selected elements have been marked by class 'user-selected'\n\n"
         "## Task\n"
         "Perform a **global, structure-aware edit** of the SVG.\n\n"
         "---\n\n"
